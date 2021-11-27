@@ -7,9 +7,11 @@ public class PlayerController : MonoBehaviour
     #region Variables
     [SerializeField, Tooltip("DefaultPawn")]
     public GameObject Player;
-    [SerializeField, Tooltip("PossiblePosition")]
-    public GameObject[] Positions;
-    int Index = 0;
+    [SerializeField, Tooltip("Possible position")]
+    Lane[] Lanes;
+    [SerializeField, Tooltip("Player speed")]
+    float Speed;
+    int Index;
     #endregion
     // Start is called before the first frame update
     void Start()
@@ -18,6 +20,11 @@ public class PlayerController : MonoBehaviour
         {
             print("NoPlayer");
         }
+        else 
+        {
+            Index = 0;
+            Player.transform.position= Lanes[Index].PlayerPosition.transform.position;
+        }
     }
 
     // Update is called once per frame
@@ -25,36 +32,44 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            Player.transform.position = Positions[0].transform.position;
+            var Stein=ResurcesManager.Get(0);
+            Stein.SetActive(true);
+            Stein.transform.position = Lanes[Index].SteinPosition.transform.position;
         }
         else if(Input.GetKeyDown(KeyCode.W))
         {
-            //player.Move(Up);
+            SwitchLane(1);
         }
         else if (Input.GetKeyDown(KeyCode.S))
         {
-            //player.Move(Down);
+            SwitchLane(-1);
         }
-        else if (Input.GetKeyDown(KeyCode.A))
+        else if (Input.GetKey(KeyCode.A))
         {
-            //player.Move(Left);
+            Move(Vector3.left);
         }
-        else if (Input.GetKeyDown(KeyCode.D))
+        else if (Input.GetKey(KeyCode.D))
         {
-            //player.Move(Right);
+            Move(Vector3.right);
         }
     }
 
-    void Move(int Direction)
+    void SwitchLane(int Direction)
     {
         int temp = Index + Direction;
-        if (temp > 4 || temp < 0)
+        if (temp > 3 || temp < 0)
         {
+
         }
         else 
         {
             Index += Direction;
         }
-        Player.transform.position = Positions[Index].transform.position;
+        Player.transform.position = Lanes[Index].PlayerPosition.transform.position;
+    }
+    private void Move(Vector3 Direction)
+    {
+        Player.transform.Translate(Direction*Time.deltaTime*Speed);
+        
     }
 }
