@@ -12,6 +12,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField, Tooltip("Player speed")]
     float Speed;
     int Index;
+    float Timer;
+    bool Anim;
     #endregion
     // Start is called before the first frame update
     void Start()
@@ -32,6 +34,7 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
+            Player.transform.position = Lanes[Index].PlayerPosition.transform.position;
             var Stein=ResurcesManager.Get(0);
             Stein.SetActive(true);
             Stein.transform.position = Lanes[Index].SteinPosition.transform.position;
@@ -53,7 +56,7 @@ public class PlayerController : MonoBehaviour
             Move(Vector3.right);
         }
     }
-
+    
     void SwitchLane(int Direction)
     {
         int temp = Index + Direction;
@@ -70,6 +73,9 @@ public class PlayerController : MonoBehaviour
     private void Move(Vector3 Direction)
     {
         Player.transform.Translate(Direction*Time.deltaTime*Speed);
-        
+        if(Player.transform.position.x>Lanes[Index].PlayerPosition.transform.position.x|| Player.transform.position.x < Lanes[Index].EndOfTheLane.transform.position.x)
+        {
+            Player.transform.Translate(-Direction * Time.deltaTime * Speed);
+        }
     }
 }

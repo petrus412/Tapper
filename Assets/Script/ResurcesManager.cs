@@ -7,15 +7,15 @@ public class ResurcesManager : MonoBehaviour
 
     [SerializeField, Range(2, 100)]
     private uint StakSize;
-    private  ObjectPool BoccalePool;
+    private  ObjectPool ObjectsPool;
     // Start is called before the first frame update
     void Start()
     {
         if (!Singleton) Singleton = this;
 
-        if (BoccalePool==null)
+        if (ObjectsPool == null)
         {
-            BoccalePool = new ObjectPool(StakSize, "Stein", "Client");
+            ObjectsPool = new ObjectPool(StakSize, "Stein", "Client");
         }
 
         DontDestroyOnLoad(Singleton);
@@ -23,6 +23,6 @@ public class ResurcesManager : MonoBehaviour
 
     public static GameObject Get(int Type)
     {
-        return Singleton.BoccalePool.Get(Type);
+        return Singleton.ObjectsPool.Get(Type);
     }
 }
