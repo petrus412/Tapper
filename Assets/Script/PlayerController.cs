@@ -37,6 +37,7 @@ public class PlayerController : MonoBehaviour
             Player.transform.position = Lanes[Index].PlayerPosition.transform.position;
             var Stein=ResurcesManager.Get(0);
             Stein.SetActive(true);
+            Stein.GetComponent<Stein>().SetLane(Lanes[Index]);
             Stein.transform.position = Lanes[Index].SteinPosition.transform.position;
         }
         else if(Input.GetKeyDown(KeyCode.W))

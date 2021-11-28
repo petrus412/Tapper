@@ -1,9 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 
 public class Client : MonoBehaviour
 {
+    [SerializeField]
+    ClientManager Manager;
     bool canMove;
     bool isLeaving;
     float Timer;
@@ -43,6 +44,11 @@ public class Client : MonoBehaviour
         }
         else if (canMove)
         {
+            if(transform.position.x > Lane.PlayerPosition.transform.position.x)
+            {
+                gameObject.SetActive(false);
+                SceneManager.LoadScene("LoseMenu");
+            }
             Move();
             Timer += Time.deltaTime;
             if (Timer >= 1f)
@@ -58,11 +64,18 @@ public class Client : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if(other.tag=="Stein")
+        if(other.tag=="Stein"&&!other.gameObject.GetComponentInParent<Stein>().isEmpty)
         {
-            other.gameObject.SetActive(false);
             Drinks--;
             isLeaving = true;
+            if(Drinks>0)
+            {
+                other.gameObject.GetComponentInParent<Stein>().isEmpty = true;
+            }
+            else 
+            {
+                other.gameObject.SetActive(false);
+            }
         }
     }
 

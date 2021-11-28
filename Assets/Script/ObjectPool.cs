@@ -27,7 +27,6 @@ public class ObjectPool
             _ClientList.Add(Client);
         }
     }
-
     public GameObject Get(int Type)
     {
         GameObject Result = GetFirstAvailabe(Type,out var HasSucced);
@@ -63,5 +62,16 @@ public class ObjectPool
             Item.SetActive(false);
             (Type == 0 ? _ObjectList : _ClientList).Add(Item);
         }
+    }
+    public bool AnyActiveClient()
+    {
+        foreach (var element in _ClientList)
+        {
+            if(element.activeSelf)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }

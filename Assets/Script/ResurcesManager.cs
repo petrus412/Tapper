@@ -25,4 +25,8 @@ public class ResurcesManager : MonoBehaviour
     {
         return Singleton.ObjectsPool.Get(Type);
     }
+    public static bool ActiveClient()
+    {
+        return Singleton.ObjectsPool.AnyActiveClient();
+    }
 }
