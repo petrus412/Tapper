@@ -3,8 +3,6 @@ using UnityEngine;
 
 public class Client : MonoBehaviour
 {
-    [SerializeField]
-    ClientManager Manager;
     bool canMove;
     bool isLeaving;
     float Timer;
@@ -24,6 +22,7 @@ public class Client : MonoBehaviour
             {
                 if (Drinks <= 0)
                 {
+                    ResurcesManager.IncrementPoints(50);
                     gameObject.SetActive(false);
                 }
                 else
@@ -62,22 +61,7 @@ public class Client : MonoBehaviour
             print("Error");
         }
     }
-    private void OnTriggerEnter(Collider other)
-    {
-        if(other.tag=="Stein"&&!other.gameObject.GetComponentInParent<Stein>().isEmpty)
-        {
-            Drinks--;
-            isLeaving = true;
-            if(Drinks>0)
-            {
-                other.gameObject.GetComponentInParent<Stein>().isEmpty = true;
-            }
-            else 
-            {
-                other.gameObject.SetActive(false);
-            }
-        }
-    }
+   
 
     private void Move()
     {
@@ -96,5 +80,26 @@ public class Client : MonoBehaviour
         TipProb=Tips;
         Speed = speed;
     }
-
+    public void Interaction(GameObject Stein)
+    {
+        if(Random.Range(0f,1f)>TipProb)
+        {
+            GameObject Tip = Instantiate(Resources.Load<GameObject>("Tip"));
+            Tip.transform.position = Stein.transform.position;
+        }
+        Drinks--;
+        isLeaving = true;
+        if (Drinks > 0)
+        {
+            Stein.gameObject.GetComponentInParent<Stein>().isEmpty = true;
+        }
+        else
+        {
+            Stein.gameObject.SetActive(false);
+        }
+    }
+    public bool isLeavingNow()
+    {
+        return isLeaving;
+    }
 }
