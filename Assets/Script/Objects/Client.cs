@@ -9,9 +9,10 @@ public class Client : MonoBehaviour
     float Timer;
     float Speed;
     float TipProb;
-    public float EndTimer;
-    public int Drinks;
-    public Lane Lane;
+    float EndTimer;
+    int Drinks;
+    Lane Lane;
+
 
     public void Update()
     {
@@ -59,6 +60,7 @@ public class Client : MonoBehaviour
     {
         if(other.tag=="Stein")
         {
+            other.gameObject.SetActive(false);
             Drinks--;
             isLeaving = true;
         }
@@ -72,4 +74,14 @@ public class Client : MonoBehaviour
     {
         transform.Translate(Vector3.left * Time.deltaTime * Speed*2);
     }
+    public void Init(Lane lane,float Time,int Drink,float Tips,float speed)
+    {
+        Lane=lane;
+        transform.position = Lane.EndOfTheLane.transform.position;
+        EndTimer =Time;
+        Drinks=Drink;
+        TipProb=Tips;
+        Speed = speed;
+    }
+
 }
