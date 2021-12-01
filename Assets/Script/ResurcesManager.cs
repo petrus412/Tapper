@@ -21,7 +21,7 @@ public class ResurcesManager : MonoBehaviour
             ObjectsPool = new ObjectPool(StakSize, "Stein", "Client");
         }
 
-        DontDestroyOnLoad(Singleton);
+        //DontDestroyOnLoad(Singleton);
     }
 
     public static GameObject Get(int Type)

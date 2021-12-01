@@ -14,8 +14,11 @@ public class ObjectPool
         ListSize = Size;
         _AssetPath = AssetPath;
         _ClientAssetPath = ClientAssetPath;
+        
+            
         _ObjectList = new List<GameObject>();
         _ClientList = new List<GameObject>();
+        
 
         for (uint i=0; i < ListSize; i++)
         {
