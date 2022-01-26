@@ -76,28 +76,49 @@ public class PlayerController : MonoBehaviour
         }
     }
     
-    void SwitchLane(int Direction)
-    {
-        int temp = Index + Direction;
-        if (temp > 3 || temp < 0)
-        {
-
-        }
-        else 
-        {
-            Index += Direction;
-        }
-        Player.transform.position = Lanes[Index].PlayerPosition.transform.position;
-    }
-    private void Move(Vector3 Direction)
+    public void SwitchLane(int Direction)
     {
         if(!Versando)
         {
-            Player.transform.Translate(Direction*Time.deltaTime*Speed);
+            int temp = Index + Direction;
+            if (temp > 3 || temp < 0)
+            {
+
+            }
+            else 
+            {
+                Index += Direction;
+            }
+            Player.transform.position = Lanes[Index].PlayerPosition.transform.position;
+        }
+    }
+    public void Move(Vector3 Direction)
+    {
+        if(!Versando)
+        {
+            Player.transform.Translate(Speed * Time.deltaTime * Direction) ;
             if(Player.transform.position.x>Lanes[Index].PlayerPosition.transform.position.x|| Player.transform.position.x < Lanes[Index].EndOfTheLane.transform.position.x)
             {
-                Player.transform.Translate(-Direction * Time.deltaTime * Speed);
+                Player.transform.Translate(Speed * Time.deltaTime * -Direction);
             }
         }
+    }
+    public void Fire()
+    {
+        var Stein = ResurcesManager.Get(0);
+        Stein.SetActive(true);
+        Stein.GetComponent<Stein>().SetLane(Lanes[Index]);
+        Stein.transform.position = Lanes[Index].SteinPosition.transform.position;
+    }
+    public void Timerstart()
+    {
+        Player.transform.position = Lanes[Index].PlayerPosition.transform.position;
+        Versando = true;
+    }
+    public void Reset()
+    {
+        Versando = false;
+        FillBar.gameObject.SetActive(false);
+        Timer = 0;
     }
 }
